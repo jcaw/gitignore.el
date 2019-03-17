@@ -246,10 +246,7 @@ to using that."
 
 ;; Ask for a gitignore after initiating a new git project in magit.
 (with-eval-after-load 'magit
-  ;; Trying to use the interactive `gitignore-would-you-like-a-gitignore' interferes
-  ;; with `magit-init', causing it to throw a cryptic error when invoked. Use a
-  ;; non-interactive proxy function to get around that.
-  (advice-add 'magit-init :after 'gitignore--would-you-like-a-gitignore-proxy))
+  (advice-add 'magit-init :after 'gitignore-do-you-want-a-template))
 
 
 (provide 'auto-add-gitignore)
