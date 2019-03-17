@@ -4,12 +4,12 @@
 ;; TODO: set require (Emacs 24.4 because of with-eval-after-load?)
 
 
-(defvar gitignore--github-gitignores-directory
+(defvar gitignore--local-templates-directory
   (concat spacemacs-cache-directory "github-gitignores/")
   "Directory to clone the boilerplate .gitignores from github.")
 
 
-(defvar gitignore--github-gitignores-remote-repo
+(defvar gitignore--github-repo-address
   "https://github.com/github/gitignore"
   "Remote repository for boilerplate .gitignores, on github.")
 
@@ -19,7 +19,7 @@
   "Hostname to use to ping GitHub.")
 
 
-(defvar gitignore--gitignore-timeout 2
+(defvar gitignore--ping-timeout 2
   "Time to wait for when pinging GitHub.
 
 Might have to bump this up for extremely slow internet
@@ -61,7 +61,7 @@ Mapping is '((name . full-path))."
               ;; Return a tuple of type to filepath. For example:
               ;; '("Emacs" . "~/.emacs.d/.cache/github-gitignores/Emacs.gitignore")
               (cons type file)))
-          (directory-files-recursively gitignore--github-gitignores-directory "\.gitignore$")))
+          (directory-files-recursively gitignore--local-templates-directory "\.gitignore$")))
 
 
 (defun gitignore--prompt-for-gitignore-template ()
@@ -154,7 +154,7 @@ Uses a timeout of 2 seconds."
             ;; -n : number of tries (want just 1)
             ;; -w : timeout in seconds
             (shell-command (format "ping -n 1 -w 2 %s"
-                                   gitignore--gitignore-timeout
+                                   gitignore--ping-timeout
                                    host))
           ;; This format tested and works on Linux. Untested on Mac, but should
           ;; work the same way.
@@ -166,8 +166,8 @@ Uses a timeout of 2 seconds."
           ;; -c : number of tries (want just 1)
           ;; -W : timeout in seconds
           (shell-command (format "timeout %s ping -c 1 -W %s %s"
-                                 gitignore--gitignore-timeout
-                                 gitignore--gitignore-timeout
+                                 gitignore--ping-timeout
+                                 gitignore--ping-timeout
                                  host)))))
 
 
@@ -182,12 +182,12 @@ This will throw an error iff no copy of the folder can be
 *cloned* from GitHub. If an old version exists, it will default
 to using that."
   ;; We need the template directory to exist so we can work within it.
-  (unless (file-directory-p gitignore--github-gitignores-directory)
-    (mkdir gitignore--github-gitignores-directory))
+  (unless (file-directory-p gitignore--local-templates-directory)
+    (mkdir gitignore--local-templates-directory))
 
   ;; Temporarily change the working directory.
   (with-temp-buffer
-    (cd gitignore--github-gitignores-directory)
+    (cd gitignore--local-templates-directory)
 
     (let ((can-ping-github (gitignore--can-ping-github))
           ;; We use a heuristic here - if the gitignores directory has a .git,
@@ -208,8 +208,8 @@ to using that."
             (unless (eq 0 (gitignore--stream-process-output
                            (list "git"
                                  "clone"
-                                 gitignore--github-gitignores-remote-repo
-                                 gitignore--github-gitignores-directory)))
+                                 gitignore--github-repo-address
+                                 gitignore--local-templates-directory)))
               (error (concat "Could not clone the .gitignore templates repo. "
                              "See the \"*messages*\" buffer for details."))))
         ;; If the template repo already exists, try to update the contents of
