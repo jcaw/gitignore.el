@@ -50,8 +50,15 @@ template will be appended to it."
   (gitignore--update-github-gitignores)
   ;; Now choose a .gitignore and copy it in.
   (let* ((chosen-gitignore-path (gitignore--prompt-for-gitignore-template))
-         (root-dir (or (vc-root-dir)
-                       (read-directory-name "Specify root dir: ")))
+         ;; Try a number of method to get the root dir
+         (root-dir (or
+                    ;; Use magit if it's installed
+                    (when (fboundp 'magit-toplevel)
+                      (magit-toplevel))
+                    ;; `vc-root-dir' seems unreliable but try it in case it
+                    ;; works.
+                    (vc-root-dir)
+                    (read-directory-name "Specify root dir: ")))
          (gitignore-path (expand-file-name ".gitignore" root-dir)))
     (if (file-exists-p gitignore-path)
         (when (y-or-n-p ".gitignore already exists. Append to it? ")
