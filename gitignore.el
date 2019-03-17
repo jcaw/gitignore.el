@@ -57,11 +57,13 @@
   "Hostname to use to ping GitHub.")
 
 
-(defvar gitignore--ping-timeout 2
+(defvar gitignore--ping-timeout "2"
   "Time to wait for when pinging GitHub.
 
 Might have to bump this up for extremely slow internet
-connections.")
+connections.
+
+NOTE: Must be a string.")
 
 
 (defun gitignore-do-you-want-a-template (&rest -)
@@ -208,24 +210,26 @@ Uses a timeout of 2 seconds."
   (eq 0 (if (eq system-type 'windows-nt)
             ;; Have to use a different method on Windows ("-n" for number of
             ;; tries instead of "-c".)
+            ;;
+            ;; "ping" options:
             ;; -n : number of tries (want just 1)
             ;; -w : timeout in seconds
-            (shell-command (format "ping -n 1 -w 2 %s"
-                                   gitignore--ping-timeout
-                                   host))
+            (gitignore--stream-process-output
+             (list "ping" "-n" "1" "-w" gitignore--ping-timeout host))
           ;; This format tested and works on Linux. Untested on Mac, but should
           ;; work the same way.
           ;;
-          ;; Force a timeout external to ping because a failure in the DNS
-          ;; lookup might cause ping to hang, even with a timeout argument. This
-          ;; doesn't occur on Windows.
-          ;; Ping options:
+          ;; "ping" options:
           ;; -c : number of tries (want just 1)
           ;; -W : timeout in seconds
-          (shell-command (format "timeout %s ping -c 1 -W %s %s"
-                                 gitignore--ping-timeout
-                                 gitignore--ping-timeout
-                                 host)))))
+          (gitignore--stream-process-output
+           ;; Force a timeout external to ping because a failure in the DNS
+           ;; lookup might cause ping to hang, even with a timeout argument. This
+           ;; doesn't occur on Windows.
+           ;; Ping options:
+           (list "timeout" gitignore--pingx-timeout
+                 "ping" "-c" "1" "-W" gitignore--ping-timeout host))
+          )))
 
 
 (defun gitignore--can-ping-github ()
