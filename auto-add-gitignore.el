@@ -136,7 +136,7 @@ declarations."
           ;; We want double blank lines before inserting.
           (concat "\n\n" (string-trim-left new-ignores))))
     ;; Append the new patterns but also make sure to visit the file to verify.
-    (find-file gitignore-gitignore-path)
+    (find-file-other-window gitignore-gitignore-path)
     (goto-char (point-max))
     (insert string-to-insert)
     (save-buffer)))
