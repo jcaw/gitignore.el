@@ -4,6 +4,8 @@ Automatically add .gitignore files to your projects in Emacs.
 
 Call `M-x gitignore-add-template`, choose a language, (e.g. `Emacs` or `Python`) and the corresponding .gitignore file will be added to your project's root.
 
+![demo of gitignore.el](demos/gitignore-demo.gif)
+
 If you already have a .gitignore file, the new ignore patterns will be appended to it.
 
 ## Magit
