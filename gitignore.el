@@ -1,4 +1,4 @@
-;;; auto-add-gitignore.el --- Auto-add boilerplate .gitignores for many languages  -*- lexical-binding: t; -*-
+;;; gitignore.el --- Auto-add boilerplate .gitignores for many languages  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019
 
@@ -6,7 +6,7 @@
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "24.4"))
 ;; Keywords: convenience, outlines, vc
-;; URL: http://www.github.com/jcaw/auto-add-gitignore.el
+;; URL: http://www.github.com/jcaw/gitignore.el
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -284,7 +284,7 @@ to using that."
           ;; local version of the repo. So we use that, since it's less
           ;; intrusive to the user.
           (display-warning
-           "auto-add-gitignore"
+           "gitignore.el"
            (concat "Could not update .gitignore templates from the "
                    "GitHub repo. Using existing local copy.")))))))
 
@@ -294,5 +294,5 @@ to using that."
   (advice-add 'magit-init :after 'gitignore-do-you-want-a-template))
 
 
-(provide 'auto-add-gitignore)
-;;; auto-add-gitignore.el ends here
+(provide 'gitignore)
+;;; gitignore.el ends here
