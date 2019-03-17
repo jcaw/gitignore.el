@@ -1,7 +1,42 @@
+;;; auto-add-gitignore.el --- Auto-add boilerplate .gitignores for many languages  -*- lexical-binding: t; -*-
 
+;; Copyright (C) 2019
 
+;; Author: GitHub user "jcaw" <40725916+jcaw@users.noreply.github.com>
+;; Version: 1.0
+;; Package-Requires: ((emacs "24.4"))
+;; Keywords: convenience, outlines, vc
+;; URL: http://www.github.com/jcaw/auto-add-gitignore.el
 
-;; TODO: set require (Emacs 24.4 because of with-eval-after-load?)
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; Automatically add .gitignore files covering many languages. Choose a
+;; language, e.g. "Emacs" or "Python" and the corresponding .gitignore file will
+;; be added to your project.
+;;
+;; If you already have a .gitignore file, the new ignore patterns will be
+;; appended to it.
+;;
+;; The boileplate .gitignore files are pulled from
+;; https://github.com/github/gitignore . Under the hood, this modules pulls that
+;; repo into a local cache, then prompts you to select one. You must have
+;; internet connection the first time you add a .gitignore, but after that you
+;; can use it offline.
+
+;;; Code:
 
 
 (defvar gitignore--local-templates-directory
