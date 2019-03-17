@@ -27,12 +27,24 @@ connections.")
 
 
 (defun gitignore-do-you-want-a-template (&rest -)
+  "Prompt the user: would they like to insert a .gitignore template?"
   (when (y-or-n-p "Would you like to insert a .gitignore template? ")
     (gitignore-add-template)))
 
 
 ;;;###autoload
 (defun gitignore-add-template ()
+  "Add a boilerplate .gitignore to the current git directory.
+
+Prompts the user to select a .gitignore template from a list of
+templates such as Python, Emacs, etc. The list comes from the
+GitHub boilerplate gitignores repo, stored in
+`gitignore--github-repo-address'. By default this should be:
+https://github.com/github/gitignore
+
+The template will be added to the git project as \".gitignore\".
+If a .gitignore file already exists, the contents of the new
+template will be appended to it."
   (interactive)
   ;; Download most up-to-date templates
   (gitignore--update-github-gitignores)
@@ -172,6 +184,9 @@ Uses a timeout of 2 seconds."
 
 
 (defun gitignore--can-ping-github ()
+  "Can we ping GitHub?
+
+If not, this implies GitHub is down or the internet is disconnected."
   (gitignore--can-ping-host gitignore--github-hostname))
 
 
