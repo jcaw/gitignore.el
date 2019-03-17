@@ -85,9 +85,9 @@ If a .gitignore file already exists, the contents of the new
 template will be appended to it."
   (interactive)
   ;; Download most up-to-date templates
-  (gitignore--update-github-gitignores)
+  (gitignore--update-github-templates)
   ;; Now choose a .gitignore and copy it in.
-  (let* ((chosen-gitignore-path (gitignore--prompt-for-gitignore-template))
+  (let* ((chosen-gitignore-path (gitignore--prompt-for-template))
          ;; Try a number of method to get the root dir
          (root-dir (or
                     ;; Use magit if it's installed
@@ -104,7 +104,7 @@ template will be appended to it."
       (copy-file chosen-gitignore-path gitignore-path))))
 
 
-(defun gitignore--get-gitignore-templates ()
+(defun gitignore--get-templates ()
   "Create an alist of .gitignore templates.
 
 Mapping is '((name . full-path))."
@@ -121,9 +121,9 @@ Mapping is '((name . full-path))."
           (directory-files-recursively gitignore--local-templates-directory "\.gitignore$")))
 
 
-(defun gitignore--prompt-for-gitignore-template ()
+(defun gitignore--prompt-for-template ()
   "Get the user to choose a template. Return its path."
-  (let* ((templates (gitignore--get-gitignore-templates))
+  (let* ((templates (gitignore--get-templates))
          (chosen-key (completing-read
                       "Choose a .gitignore template: "
                       templates nil t)))
@@ -142,7 +142,7 @@ Mapping is '((name . full-path))."
     (split-string (buffer-string) "\n" nil)))
 
 
-(defun gitignore--read-and-strip-gitignore (gitignore-path)
+(defun gitignore--read-and-strip-template (gitignore-path)
   "Read a .gitignore template, stripping lines we don't want.
 
 Basically, strips file headers like hashbangs and mode
@@ -168,7 +168,7 @@ declarations."
 
 (defun gitignore--append-to-gitignore (chosen-gitignore-path gitignore-gitignore-path)
   "Append the contents of another gitignore to this gitignore."
-  (let* ((new-ignores (gitignore--read-and-strip-gitignore
+  (let* ((new-ignores (gitignore--read-and-strip-template
                        chosen-gitignore-path))
          (string-to-insert
           ;; We want double blank lines before inserting.
@@ -235,7 +235,7 @@ If not, this implies GitHub is down or the internet is disconnected."
   (gitignore--can-ping-host gitignore--github-hostname))
 
 
-(defun gitignore--update-github-gitignores ()
+(defun gitignore--update-github-templates ()
   "Update the folder holding the .gitignores templates (from GitHub).
 
 This will throw an error iff no copy of the folder can be
