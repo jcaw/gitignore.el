@@ -227,7 +227,7 @@ Uses a timeout of 2 seconds."
            ;; lookup might cause ping to hang, even with a timeout argument. This
            ;; doesn't occur on Windows.
            ;; Ping options:
-           (list "timeout" gitignore--pingx-timeout
+           (list "timeout" gitignore--ping-timeout
                  "ping" "-c" "1" "-W" gitignore--ping-timeout host))
           )))
 
