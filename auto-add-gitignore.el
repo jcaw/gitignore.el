@@ -30,6 +30,9 @@
 ;; If you already have a .gitignore file, the new ignore patterns will be
 ;; appended to it.
 ;;
+;; If you have Magit installed, it will prompt you for a gitignore when you
+;; create a new project.
+;;
 ;; The boileplate .gitignore files are pulled from
 ;; https://github.com/github/gitignore . Under the hood, this modules pulls that
 ;; repo into a local cache, then prompts you to select one. You must have
