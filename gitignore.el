@@ -3,7 +3,7 @@
 ;; Copyright (C) 2019
 
 ;; Author: GitHub user "jcaw" <40725916+jcaw@users.noreply.github.com>
-;; Version: 1.0
+;; Version: 1.0.1
 ;; Package-Requires: ((emacs "24.4") magit)
 ;; Keywords: convenience, outlines, vc
 ;; URL: http://www.github.com/jcaw/gitignore.el
