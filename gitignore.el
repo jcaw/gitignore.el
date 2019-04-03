@@ -4,7 +4,7 @@
 
 ;; Author: GitHub user "jcaw" <40725916+jcaw@users.noreply.github.com>
 ;; Version: 1.0
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.4") magit)
 ;; Keywords: convenience, outlines, vc
 ;; URL: http://www.github.com/jcaw/gitignore.el
 
@@ -40,6 +40,10 @@
 ;; can use it offline.
 
 ;;; Code:
+
+
+(require 'magit)
+;; TODO: Add magit requirement version
 
 
 (defvar gitignore--local-templates-directory
