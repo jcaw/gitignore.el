@@ -44,10 +44,12 @@
 
 (require 'magit)
 ;; TODO: Add magit requirement version
+(require 'f)
 
 
+;; TODO: Check this is created recursively if it doesn't exist
 (defvar gitignore--local-templates-directory
-  (concat spacemacs-cache-directory "github-gitignores/")
+  (f-join user-emacs-directory ".cache" "github-gitignores")
   "Directory to clone the boilerplate .gitignores from github.")
 
 
